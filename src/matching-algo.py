@@ -1,19 +1,45 @@
+
+#object to define hospitals and students 
+class Candidate:
+    def __init__(self, id):
+        self.free = True
+        self.id = id
+    def setTaken(self):
+        self.free = False
+
 def main():
     #Read in data from example.in
-    pref_list = []
+    hospital_pref = []
+    student_pref = []
+    n = 0 #setting a default value that will change
     #open file and automatically close after reading
-    with open("../data/example.in", "r") as file:
+    with open("./data/example.in", "r") as file:
+        iterations = 0
         for line in file:
-            #adding to list and converting to int
-            pref_list.append([int(num) for num in line.strip() if num!= " "])
-    print(pref_list) #testing
+            #adding to list and converting to object
+            if iterations == 0:
+                #verify that n exists and can be converted to an integer
+                try:
+                    n = int(line.strip()) #storing n value
+                except ValueError:
+                    print("There are no hospitals and students to match")
+                    return
+            elif iterations <= n:
+                hospital_pref.append([Candidate(id=num) for num in line.strip() if num!= " "])
+            elif iterations > n and iterations <= 2*n:
+                student_pref.append([Candidate(id=num) for num in line.strip() if num!= " "])
+            iterations += 1
+    #testing
+    # for i in range(n):
+    #     print(f"{hospital_pref[i][0].id}, {hospital_pref[i][1].id}, {hospital_pref[i][2].id}") #testing
+    #     print(f"{student_pref[i][0].id}, {student_pref[i][1].id}, {student_pref[i][2].id}") #testing
 
-    n = pref_list[0][0] #number of hospitals and students
-    hospital_pref = pref_list[1:n+1] #hospital preference lists
-    student_pref = pref_list[n+1 : 2*n+1 ] #student preference lists
-    if len(hospital_pref) != n != len(student_pref):
+    #verifying that there are the same number of hospitals and students
+    if len(hospital_pref) != n or len(hospital_pref) != len(student_pref) or len(student_pref) != n:
         print("Error: There is not the same number of hospitals and students.")
         return
+    if len(hospital_pref)==0 or len(student_pref) == 0:
+        print("Error: No students or hospitals available to match!")
     
     #testing
     # print(n)
@@ -24,7 +50,7 @@ def main():
     free_hospitals = n
     while free_hospitals > 0:
        #Select a free hospital
-       pass
+       break
     
 
 if __name__ =="__main__":
