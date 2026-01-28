@@ -20,8 +20,10 @@ if output is given as:
 '''
 (b) Checks stability: confirms there is no blocking pair.
 
-- would have to look through both input and output files
-- ??
+- go through hospital preferences, row by row, pref by pref
+- loop through each pref until reaching current match
+  - for each pref before current match, check if that student s would prefer this hospital h over their current match h' by going through that student's preference list until reaching their current match h'
+    - if that student prefers h over h', then blocking pair found --> unstable
 '''
 
 from matching_algo import main
