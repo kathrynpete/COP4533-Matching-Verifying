@@ -5,8 +5,11 @@ class Candidate:
         self.free = True
         self.id = id
         self.pref_list = pref_list
+        self.match = -1
     def setTaken(self):
         self.free = False
+    def setMatch(self, match):
+        self.match = match
 
 def main():
     #Read in data from example.in
@@ -14,7 +17,7 @@ def main():
     student_pref = []
     n = 0 #setting a default value that will change
     #open file and automatically close after reading
-    with open("COP4533-Matching-Verifying/data/example.in", "r") as file:
+    with open("./data/example.in", "r") as file:
         iterations = 0
         index = 0
         for line in file:
@@ -34,11 +37,11 @@ def main():
             iterations += 1
             
     #testing
-    for i in range(n):
-        print(f"{hospital_pref[i].id}")
-        print(f"{hospital_pref[i].pref_list}") #testing
-        print(f"{student_pref[i].id}")
-        print(f"{student_pref[i].pref_list}") #testing
+    # for i in range(n):
+    #     print(f"{hospital_pref[i].id}")
+    #     print(f"{hospital_pref[i].pref_list}") #testing
+    #     print(f"{student_pref[i].id}")
+    #     print(f"{student_pref[i].pref_list}") #testing
         
         # print(f"{student_pref[i][0].id}, {student_pref[i][1].id}, {student_pref[i][2].id}") #testing
 
@@ -72,8 +75,28 @@ def main():
                     #update students and hospitals free status
                     student_pref[top_student-1].setTaken()
                     free_hospital.setTaken()
+                    student_pref[top_student-1].setMatch(free_hospital.id)
+                    free_hospital.setMatch(student_pref[top_student-1].id)
                     free_hospitals = free_hospitals[1:]
+                    print("first condition")
                     break
+                else:
+                    print("student not free")
+                    #student is not free
+                    #check if student wants to trade up
+                    for j in range(n):
+                        if student_pref[top_student-1].pref_list[j] == student_pref[top_student-1].match:
+                            print("student not trading up")
+                            break #student likes current match better
+                            
+                        elif student_pref[top_student-1].pref_list[j] == free_hospital.id:
+                            free_hospitals.append((hospital_pref[student_pref[top_student-1].match])-1)
+                            free_hospital.setTaken()
+                            student_pref[top_student-1].setMatch(free_hospital.id)
+                            free_hospital.setMatch(student_pref[top_student-1].id)
+                            free_hospitals = free_hospitals[1:]
+                            print("student traded up")
+
     
         # free_hospitals = hospital_pref[1:]
         index += 1
