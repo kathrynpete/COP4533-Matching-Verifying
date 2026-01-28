@@ -46,7 +46,7 @@ def valid_matching(assignments):
       s_set.add(s)
   return True
 
-def stable_matching():
+def stable_matching(assignments):
   # dictionary for matches
   h_s_dict = {} # key=h, v=s
   s_h_dict = {} # key=s, v=h
@@ -57,7 +57,8 @@ def stable_matching():
   # loop through each hospital in hospital_pref
   for h in hospital_pref:
     # find the hospital's assigned student s
-    s_match = h_s_dict[h]
+    s_match = h_s_dict[h.id]
+    print(f"hi {type(s_match)}")
 
     # loop through each pref for this hospital h
     for s in h.pref_list:
@@ -69,17 +70,28 @@ def stable_matching():
         # find this student's current match
         h_match = s_h_dict[s]
 
-        
+        # find the student candidate object
+        s_candidate_obj = next((x for x in student_pref if x.id == s), None)
 
 
-        
-      
+        # check if this student prefers h over its current match h_match
+        h_index = s_candidate_obj.pref_list.index(h.id)
+        h_match_index = s_candidate_obj.pref_list.index(h_match)
+        if h_index < h_match_index:
+          # blocking pair --> unstable
+          return False
+  return True
 
 def main():
-  print(type(hospital_pref[0]))
+  # print(type(hospital_pref[0].pref_list[0]))
+  # print(type(hospital_pref[0].id))
+  # print(type(assignments[0][0]))
 
   is_valid = valid_matching(assignments)
   print("VALID") if is_valid else print("INVALID")
+
+  is_stable = stable_matching(assignments)
+  print("STABLE") if is_stable else print("UNSTABLE")
 
 if __name__ == "__main__":
   main()
