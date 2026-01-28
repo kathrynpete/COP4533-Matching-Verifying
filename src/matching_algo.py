@@ -122,6 +122,11 @@ def main():
         assignments.append((hospital_pref[pair].id, hospital_pref[pair].match))
     #testing
     print(assignments)
+
+    with open("./data/example.out", "w") as f:
+        for (h, s) in assignments:
+            f.write(f"{h} {s}\n")
+
     return hospital_pref, student_pref, assignments
 
 if __name__ =="__main__":
