@@ -122,7 +122,7 @@ def main():
         assignments.append((hospital_pref[pair].id, hospital_pref[pair].match))
     #testing
     print(assignments)
-    return assignments
+    return hospital_pref, student_pref, assignments
 
 if __name__ =="__main__":
   main()

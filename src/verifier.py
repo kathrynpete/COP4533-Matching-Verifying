@@ -26,8 +26,7 @@ if output is given as:
 
 from matching_algo import main
 
-hospital_pref, student_pref, assignements = main()
-print(type(assignements[0]))
+hospital_pref, student_pref, assignments = main()
 
 def valid_matching(assignments):
   # create two empty sets
@@ -45,8 +44,11 @@ def valid_matching(assignments):
       s_set.add(s)
   return True
 
+def stable_matching():
+  pass
+
 def main():
-  is_valid = valid_matching(assignements)
+  is_valid = valid_matching(assignments)
   print("VALID") if is_valid else print("INVALID")
 
 if __name__ == "__main__":
