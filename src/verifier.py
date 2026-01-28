@@ -47,9 +47,37 @@ def valid_matching(assignments):
   return True
 
 def stable_matching():
-  pass
+  # dictionary for matches
+  h_s_dict = {} # key=h, v=s
+  s_h_dict = {} # key=s, v=h
+  for (h, s) in assignments:
+    h_s_dict[h] = s
+    s_h_dict[s] = h
+
+  # loop through each hospital in hospital_pref
+  for h in hospital_pref:
+    # find the hospital's assigned student s
+    s_match = h_s_dict[h]
+
+    # loop through each pref for this hospital h
+    for s in h.pref_list:
+      if s == s_match:
+        # reached current match, move to next hospital
+        break
+      else:
+        # this is a student that h prefers over its current match s
+        # find this student's current match
+        h_match = s_h_dict[s]
+
+        
+
+
+        
+      
 
 def main():
+  print(type(hospital_pref[0]))
+
   is_valid = valid_matching(assignments)
   print("VALID") if is_valid else print("INVALID")
 
