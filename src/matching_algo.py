@@ -8,6 +8,7 @@ class Candidate:
         self.beenMatched = []
     def setTaken(self):
         self.free = False
+        self.match = -1
     def setFree(self):
         self.free = True
     def setMatched(self, match):
@@ -24,7 +25,6 @@ def main(filename="./data/example.in"):
     #verify file opening works
     with open(filename, "r") as file:
         iterations = 0
-        index = 0
         for line in file:
             #adding to list and converting to object
             if iterations == 0:
@@ -35,10 +35,12 @@ def main(filename="./data/example.in"):
                     print("There are no hospitals and students to match")
                     return
             elif iterations <= n:
-                hospital_pref.append(Candidate(id=iterations, pref_list=[int(num) for num in line.strip() if num != " "]))
+                hospital_pref.append(Candidate(id=int(iterations), pref_list=[int(num) for num in line.strip().split()]))
             elif iterations > n and iterations <= 2*n:
-                 student_pref.append(Candidate(id=iterations-n, pref_list=[int(num) for num in line.strip() if num != " "]))
+                 student_pref.append(Candidate(id=int(iterations-n), pref_list=[int(num) for num in line.strip().split()]))
             iterations += 1
+            
+            
             
     #testing
     # for i in range(n):
@@ -70,7 +72,6 @@ def main(filename="./data/example.in"):
         if free_hospitals[0].free == True:
             current_hospital = free_hospitals[0]
             #testing
-            # print(f"current hospital {current_hospital.id}")
             for i in range(n):
                 top_student = current_hospital.pref_list[i]
                 #if hospital and student have already been matched before, move on
@@ -93,16 +94,17 @@ def main(filename="./data/example.in"):
                     # print("student not free")
                     #student is not free
                     #check if student wants to trade up
-                    student_trading_up = True
+                    student_trading_up = False
                     for j in range(n):
                         if current_student.pref_list[j] == current_student.match:
                             #testing
-                            student_trading_up = False
+                            # student_trading_up = False
                             # print("student not trading up")
                             break #student likes current match better
                             
-                        elif student_pref[top_student-1].pref_list[j] == current_hospital.id:
+                        elif current_student.pref_list[j] == current_hospital.id:
                             #student decides to trade-up
+                            student_trading_up = True
                             current_match = hospital_pref[(current_student.match)-1]
                             #add current match back to free list
                             free_hospitals.append(current_match)
@@ -118,7 +120,6 @@ def main(filename="./data/example.in"):
                 if student_trading_up:
                     break
         free_hospitals = free_hospitals[1:]
-
     #assign
     for pair in range(n):
         assignments.append((hospital_pref[pair].id, hospital_pref[pair].match))
