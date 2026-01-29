@@ -58,6 +58,7 @@ def stable_matching(assignments):
   # loop through each hospital in hospital_pref
   for h in hospital_pref:
     # find the hospital's assigned student s
+    print(f"HERE {h.id}")
     s_match = h_s_dict[h.id]
 
     # loop through each pref for this hospital h

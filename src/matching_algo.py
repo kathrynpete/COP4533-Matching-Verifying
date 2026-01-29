@@ -15,14 +15,14 @@ class Candidate:
         self.beenMatched.append(match)
 
 
-def main():
+def main(filename="./data/example.in"):
     #Read in data from example.in
     hospital_pref = []
     student_pref = []
     n = 0 #setting a default value that will change
     #open file and automatically close after reading
     #verify file opening works
-    with open("./data/example.in", "r") as file:
+    with open(filename, "r") as file:
         iterations = 0
         index = 0
         for line in file:
@@ -70,13 +70,13 @@ def main():
         if free_hospitals[0].free == True:
             current_hospital = free_hospitals[0]
             #testing
-            print(f"current hospital {current_hospital.id}")
+            # print(f"current hospital {current_hospital.id}")
             for i in range(n):
                 top_student = current_hospital.pref_list[i]
                 #if hospital and student have already been matched before, move on
                 if top_student in current_hospital.beenMatched:
                     #testing
-                    print(f'already been matched iteration is now {i}')
+                    # print(f'already been matched iteration is now {i}')
                     continue
                 current_student = student_pref[top_student-1]
                 if current_student.free == True:
@@ -87,10 +87,10 @@ def main():
                     current_student.setMatched(current_hospital.id)
                     current_hospital.setMatched(current_student.id)
                     #testing
-                    print("first condition")
+                    # print("first condition")
                     break
                 else:
-                    print("student not free")
+                    # print("student not free")
                     #student is not free
                     #check if student wants to trade up
                     student_trading_up = True
@@ -98,7 +98,7 @@ def main():
                         if current_student.pref_list[j] == current_student.match:
                             #testing
                             student_trading_up = False
-                            print("student not trading up")
+                            # print("student not trading up")
                             break #student likes current match better
                             
                         elif student_pref[top_student-1].pref_list[j] == current_hospital.id:
@@ -113,7 +113,7 @@ def main():
                             current_hospital.setMatched(current_student.id)
                             current_student.setMatched(current_hospital.id)
                             #testing
-                            print("student traded up")
+                            # print("student traded up")
                             break
                 if student_trading_up:
                     break
