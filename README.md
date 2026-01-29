@@ -16,8 +16,8 @@ Students: Maggie Yan (30309678), Kathryn Peters ()
 
 3. Graph and solution to Task C:
     - The general trend we noticed when testing the run time of increasingly large inputs is that it takes an increasingly longer time, for both the matcher and the verifier. There is a little oscillation at the beginning of the matcher time complexity (e.g. 8 inputs takes slightly less time than 2 inputs; and 2^7 inputs takes slightly less timethan 2^6 inputs), but as n approaches larger and larger values (such as 2^9), the graph becomes exponential.
-![alt text](image.png)
-![alt text](image-1.png)
+![alt text](./task_c_graphs/image.png)
+![alt text](./task_c_graphs/image-1.png)
 
 4. Extra notes:
     - if you want to run the time complexity file located in ./src/scalability.py, you must install matplotlib library to view the graphs
