@@ -39,6 +39,7 @@ def valid_matching(assignments):
   for (h, s) in assignments:
     # if h or s already exists in their respective set --> duplicate --> invalid
     if h in h_set or s in s_set:
+      print("INVALID: duplicate hospital or student found")
       return False
     # else, add h and s to their respective sets
     else:
@@ -58,7 +59,6 @@ def stable_matching(assignments):
   for h in hospital_pref:
     # find the hospital's assigned student s
     s_match = h_s_dict[h.id]
-    print(f"hi {type(s_match)}")
 
     # loop through each pref for this hospital h
     for s in h.pref_list:
@@ -79,19 +79,16 @@ def stable_matching(assignments):
         h_match_index = s_candidate_obj.pref_list.index(h_match)
         if h_index < h_match_index:
           # blocking pair --> unstable
+          print(f"UNSTABLE: ({h.id}, {s}) is a blocking pair")
           return False
   return True
 
 def main():
-  # print(type(hospital_pref[0].pref_list[0]))
-  # print(type(hospital_pref[0].id))
-  # print(type(assignments[0][0]))
-
   is_valid = valid_matching(assignments)
-  print("VALID") if is_valid else print("INVALID")
+  if is_valid: print("VALID")
 
   is_stable = stable_matching(assignments)
-  print("STABLE") if is_stable else print("UNSTABLE")
+  if is_stable: print("STABLE")
 
 if __name__ == "__main__":
   main()
