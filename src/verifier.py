@@ -47,7 +47,7 @@ def valid_matching(assignments):
       s_set.add(s)
   return True
 
-def stable_matching(assignments):
+def stable_matching(hospital_pref, student_pref, assignments):
   # dictionary for matches
   h_s_dict = {} # key=h, v=s
   s_h_dict = {} # key=s, v=h
@@ -58,8 +58,11 @@ def stable_matching(assignments):
   # loop through each hospital in hospital_pref
   for h in hospital_pref:
     # find the hospital's assigned student s
-    print(f"HERE {h.id}")
-    s_match = h_s_dict[h.id]
+    try:
+      s_match = h_s_dict[h.id]
+    except KeyError:
+      print(f"UNSTABLE: Hospital {h.id} has no match assigned")
+      return False
 
     # loop through each pref for this hospital h
     for s in h.pref_list:
@@ -88,7 +91,7 @@ def main():
   is_valid = valid_matching(assignments)
   if is_valid: print("VALID")
 
-  is_stable = stable_matching(assignments)
+  is_stable = stable_matching(hospital_pref, student_pref, assignments)
   if is_stable: print("STABLE")
 
 if __name__ == "__main__":
