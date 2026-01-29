@@ -1,4 +1,3 @@
-
 #object to define hospitals and students 
 class Candidate:
     def __init__(self, id, pref_list):
@@ -94,9 +93,11 @@ def main():
                     print("student not free")
                     #student is not free
                     #check if student wants to trade up
+                    student_trading_up = True
                     for j in range(n):
                         if current_student.pref_list[j] == current_student.match:
                             #testing
+                            student_trading_up = False
                             print("student not trading up")
                             break #student likes current match better
                             
@@ -114,7 +115,8 @@ def main():
                             #testing
                             print("student traded up")
                             break
-                break
+                if student_trading_up:
+                    break
         free_hospitals = free_hospitals[1:]
 
     #assign
