@@ -88,11 +88,14 @@ def stable_matching(hospital_pref, student_pref, assignments):
   return True
 
 def main():
-  is_valid = valid_matching(assignments)
-  if is_valid: print("VALID")
+  if hospital_pref and student_pref and assignments:
+    is_valid = valid_matching(assignments)
+    if is_valid: print("VALID")
 
-  is_stable = stable_matching(hospital_pref, student_pref, assignments)
-  if is_stable: print("STABLE")
+    is_stable = stable_matching(hospital_pref, student_pref, assignments)
+    if is_stable: print("STABLE")
+  else:
+    return
 
 if __name__ == "__main__":
   main()
