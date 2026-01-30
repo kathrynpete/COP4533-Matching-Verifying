@@ -6,6 +6,7 @@ Students: Maggie Yan (30309678), Kathryn Peters (59081734)
     - Located in ./src/matching_algo.py
     - main() default takes in "./data/example.in" file
     - To test different inputs, edit the ./data/example.in file with the input style specified in the assignment
+    - We are assuming that the "./data/example.in" file must only contain integers and spaces
     - The output will be written to ./data/example.out with the output style specified in the assignment
     - To run via the command line, ensure current directory is COP4533-Matching-Verifying and run this command: 
 
