@@ -22,7 +22,6 @@ def main(filename="./data/example.in"):
     student_pref = []
     n = 0 #setting a default value that will change
     #open file and automatically close after reading
-    #verify file opening works
     with open(filename, "r") as file:
         iterations = 0
         for line in file:
@@ -32,24 +31,13 @@ def main(filename="./data/example.in"):
                 try:
                     n = int(line.strip()) #storing n value
                 except ValueError:
-                    print("There are no hospitals and students to match")
+                    print("Error: Input file formatted incorrectly. There are no hospitals and students to match")
                     return
             elif iterations <= n:
                 hospital_pref.append(Candidate(id=int(iterations), pref_list=[int(num) for num in line.strip().split()]))
             elif iterations > n and iterations <= 2*n:
                  student_pref.append(Candidate(id=int(iterations-n), pref_list=[int(num) for num in line.strip().split()]))
             iterations += 1
-            
-            
-            
-    #testing
-    # for i in range(n):
-    #     print(f"{hospital_pref[i].id}")
-    #     print(f"{hospital_pref[i].pref_list}") #testing
-    #     print(f"{student_pref[i].id}")
-    #     print(f"{student_pref[i].pref_list}") #testing
-        
-        # print(f"{student_pref[i][0].id}, {student_pref[i][1].id}, {student_pref[i][2].id}") #testing
 
     #verifying that there are the same number of hospitals and students
     if len(hospital_pref) != n or len(hospital_pref) != len(student_pref) or len(student_pref) != n:
@@ -57,11 +45,7 @@ def main(filename="./data/example.in"):
         return
     if len(hospital_pref)==0 or len(student_pref) == 0:
         print("Error: No students or hospitals available to match!")
-    
-    #testing
-    # print(n)
-    # print(hospital_pref)
-    # print(student_pref)
+        return
 
     #Gale Shapley Algorithm
     #initialize lists
@@ -71,35 +55,27 @@ def main(filename="./data/example.in"):
         #Select a free hospital
         if free_hospitals[0].free == True:
             current_hospital = free_hospitals[0]
-            #testing
             for i in range(n):
+                #select current hospital's top student
                 top_student = current_hospital.pref_list[i]
                 #if hospital and student have already been matched before, move on
                 if top_student in current_hospital.beenMatched:
-                    #testing
-                    # print(f'already been matched iteration is now {i}')
                     continue
                 current_student = student_pref[top_student-1]
                 if current_student.free == True:
                 #assign student to hospital
-                    #update students and hospitals free status
+                    #update students and hospitals assignment status
                     current_student.setTaken()
                     current_hospital.setTaken()
                     current_student.setMatched(current_hospital.id)
                     current_hospital.setMatched(current_student.id)
-                    #testing
-                    # print("first condition")
                     break
                 else:
-                    # print("student not free")
                     #student is not free
                     #check if student wants to trade up
                     student_trading_up = False
                     for j in range(n):
                         if current_student.pref_list[j] == current_student.match:
-                            #testing
-                            # student_trading_up = False
-                            # print("student not trading up")
                             break #student likes current match better
                             
                         elif current_student.pref_list[j] == current_hospital.id:
@@ -114,11 +90,10 @@ def main(filename="./data/example.in"):
                             current_hospital.setTaken()
                             current_hospital.setMatched(current_student.id)
                             current_student.setMatched(current_hospital.id)
-                            #testing
-                            # print("student traded up")
                             break
                 if student_trading_up:
                     break
+        #decrease list of free hospitals to eventually break the while loop
         free_hospitals = free_hospitals[1:]
     #assign
     for pair in range(n):
@@ -126,6 +101,7 @@ def main(filename="./data/example.in"):
     #testing
     print(assignments)
 
+    #write data to new file
     with open("./data/example.out", "w") as f:
         for (h, s) in assignments:
             f.write(f"{h} {s}\n")
