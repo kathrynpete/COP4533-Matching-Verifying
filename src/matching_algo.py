@@ -20,6 +20,7 @@ def main(filename="./data/example.in"):
     #Read in data from example.in
     hospital_pref = []
     student_pref = []
+    assignments = []
     n = 0 #setting a default value that will change
     #open file and automatically close after reading
     with open(filename, "r") as file:
@@ -32,7 +33,7 @@ def main(filename="./data/example.in"):
                     n = int(line.strip()) #storing n value
                 except ValueError:
                     print("Error: Input file formatted incorrectly. There are no hospitals and students to match")
-                    return
+                    return hospital_pref, student_pref, assignments
             elif iterations <= n:
                 hospital_pref.append(Candidate(id=int(iterations), pref_list=[int(num) for num in line.strip().split()]))
             elif iterations > n and iterations <= 2*n:
@@ -42,15 +43,14 @@ def main(filename="./data/example.in"):
     #verifying that there are the same number of hospitals and students
     if len(hospital_pref) != n or len(hospital_pref) != len(student_pref) or len(student_pref) != n:
         print("Error: There is not the same number of hospitals and students.")
-        return
+        return hospital_pref, student_pref, assignments
     if len(hospital_pref)==0 or len(student_pref) == 0:
         print("Error: No students or hospitals available to match!")
-        return
+        return hospital_pref, student_pref, assignments
 
     #Gale Shapley Algorithm
     #initialize lists
     free_hospitals = hospital_pref
-    assignments = []
     while len(free_hospitals) > 0:
         #Select a free hospital
         if free_hospitals[0].free == True:
@@ -98,6 +98,8 @@ def main(filename="./data/example.in"):
     #assign
     for pair in range(n):
         assignments.append((hospital_pref[pair].id, hospital_pref[pair].match))
+    #testing
+    print(assignments)
 
     #write data to new file
     with open("./data/example.out", "w") as f:
