@@ -98,8 +98,6 @@ def main(filename="./data/example.in"):
     #assign
     for pair in range(n):
         assignments.append((hospital_pref[pair].id, hospital_pref[pair].match))
-    #testing
-    print(assignments)
 
     #write data to new file
     with open("./data/example.out", "w") as f:
